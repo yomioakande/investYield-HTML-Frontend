@@ -37,6 +37,65 @@
     <link href="./assets/css/theme.css" rel="stylesheet" media="all">
     <link href="./assets/css/style.css" rel="stylesheet" media="all">
 
+    <style>
+        #PINform input:focus,
+#PINform select:focus,
+#PINform textarea:focus,
+#PINform button:focus {
+	outline: none;
+}
+
+#PINbox {
+	background: transparent;
+	margin: 3.5%;
+	width: 100%;
+	font-size: 4em;
+    color:blue;
+	text-align: center;
+}
+.PINbutton {
+	background: #ffffff;
+	color: #707070;
+	border: 1px solid #dddddd;
+	border-radius: 50%;
+	font-size: 1.5em;
+	text-align: center;
+	width: 60px;
+	height: 60px;
+	margin: 7px 20px;
+	padding: 0;
+}
+.clear, .enter {
+	font-size: 1em;
+}
+.PINbutton:hover {
+ 	box-shadow: #506CE8 0 0 1px 1px;
+}
+.PINbutton:active {
+ 	background: #506CE8;
+	color: #fff;
+}
+.clear:hover {
+ 	box-shadow: #ff3c41 0 0 1px 1px;
+}
+.clear:active {
+ 	background: #ff3c41;
+	color: #fff;
+}
+.enter:hover {
+ 	box-shadow: #47cf73 0 0 1px 1px;
+}
+.enter:active {
+ 	background: #47cf73;
+	color: #fff;
+}
+.shadow{
+      -webkit-box-shadow: 0px 5px 5px -0px rgba(0,0,0,0.3);
+         -moz-box-shadow: 0px 5px 5px -0px rgba(0,0,0,0.3);
+              box-shadow: 0px 5px 5px -0px rgba(0,0,0,0.3);
+}
+    </style>
+
 </head>
 
 <body class="animsition">
@@ -307,24 +366,8 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-6">
                                 <div class="p-5 bg-white br-5">
-                                    <h6 class="reg-p mb-3">Please enter the One-Time Password (OTP) that has been sent to the phone number<span class="reg-p-number"> +234705*****95. </span></h6>
-                                    <form action="">
-                                        <div class="form-group mt-4">
-                                            <input type="text" class="text-field" placeholder="Enter OTP">
-                                        </div>
-                                        <div class="form-group mt-50">
-                                            <input type="submit" class="btn login-submit" value="NEXT">
-                                        </div>
-                                        <div class="mt-4">
-                                            <h6 class="reg-p text-center">Did not get an OTP?</h6>
-                                        </div>
-                                        <div class="mt-4">
-                                            <button class="btn btn-resend-otp">Resend OTP</button>
-                                        </div>
-                                        <div class="mt-4 d-flex justify-content-center">
-                                            <a href="#" class="text-center text-danger no-decor weight-600">CANCEL</a>
-                                        </div>
-                                    </form>
+                                    <h5 class="mb-3 text-center">Please enter your 4-digit PIN to  proceed.</h5>
+                                    <div id="PINcode"></div>
                                 </div>
                             </div>
                         </div>
@@ -367,6 +410,98 @@
 
     <script>
         feather.replace()
+    </script>
+    <script>
+        $(function() {
+	$( "#PINform" ).draggable();
+});
+
+$( "#PINcode" ).html(
+	"<form action='' method='' name='PINform' id='PINform' autocomplete='off' draggable='true'>" +
+		"<input id='PINbox' type='password' value='' name='PINbox' disabled maxlength='4' />" +
+		"<br/>" +
+        "<div class='d-flex justify-content-center'>" + 
+		"<input type='button' class='PINbutton' name='1' value='1' id='1' onClick=addNumber(this); />" +
+		"<input type='button' class='PINbutton' name='2' value='2' id='2' onClick=addNumber(this); />" +
+		"<input type='button' class='PINbutton' name='3' value='3' id='3' onClick=addNumber(this); />" +
+        "</div>" +
+		"<br>" +
+        "<div class='d-flex justify-content-center'>" + 
+		"<input type='button' class='PINbutton' name='4' value='4' id='4' onClick=addNumber(this); />" +
+		"<input type='button' class='PINbutton' name='5' value='5' id='5' onClick=addNumber(this); />" +
+		"<input type='button' class='PINbutton' name='6' value='6' id='6' onClick=addNumber(this); />" +
+        "</div>" +
+		"<br>" +
+        "<div class='d-flex justify-content-center'>" + 
+		"<input type='button' class='PINbutton' name='7' value='7' id='7' onClick=addNumber(this); />" +
+		"<input type='button' class='PINbutton' name='8' value='8' id='8' onClick=addNumber(this); />" +
+		"<input type='button' class='PINbutton' name='9' value='9' id='9' onClick=addNumber(this); />" +
+        "</div>" +
+		"<br>" +
+        "<div class='d-flex justify-content-center'>" +
+        "<input type='button' class='PINbutton enter' name='+' value='enter' id='+' onClick=submitForm(PINbox); style='visibility:hidden;' />" + 
+		"<input type='button' class='PINbutton' name='0' value='0' id='0' onClick=addNumber(this); />" +
+        "<div class='position-relative'>" +
+		"<input type='button' class='PINbutton clear' name='-' value='' id='-' onClick=clearForm(this); />" +
+        "<img src='./assets/images/delete.svg' class='img-fluid position-absolute' style='top:35%; left:40%;' />" + 
+        "</div>" +
+        "</div>" +
+	"</form>"
+);
+
+function addNumber(e){
+	//document.getElementById('PINbox').value = document.getElementById('PINbox').value+element.value;
+	var v = $( "#PINbox" ).val();
+    if(v.length !== 4){
+        $( "#PINbox" ).val( v + e.value );
+    }
+}
+function clearForm(e){
+	//document.getElementById('PINbox').value = "";
+	$( "#PINbox" ).val(
+        function(index, value){
+            return value.substr(0, value.length - 1);
+        })
+}
+function submitForm(e) {
+	if (e.value == "") {
+		alert("Enter a PIN");
+	} else {
+		alert( "Your PIN has been sent! - " + e.value );
+		data = {
+			pin: e.value
+		}
+		/*		
+		apiCall( data, function( r ) {
+			$( "#logo" ).attr( "src", r.site_logo );
+			$( ".title-msg" ).text( r.site_msg );
+			accent = r.accent;
+			$( ".accent-bg" ).css( "background-color", accent );
+		});
+		*/
+		
+		//document.getElementById('PINbox').value = "";
+		$( "#PINbox" ).val( "" );
+	};
+};
+
+/*
+function apiCall( post, callback ) {	
+	$.ajax({
+		type: "POST",
+		contentType: "application/json",
+		url: "admin/api.php",
+		data: JSON.stringify( post ),
+		dataType: "json",
+		success: function ( r ) {
+			callback( r );
+		},
+		error: function ( response ) {
+			console.log( response )
+		},
+	});
+}
+*/
     </script>
 
 </body>
